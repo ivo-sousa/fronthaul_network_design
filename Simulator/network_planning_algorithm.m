@@ -27,6 +27,9 @@ BBU_cost=table2array(BBU_info(1,2)); % BBU cost in Euro
 min_BBUs=table2array(BBU_info(1,3)); % minimum no. of BBUs to test
 max_BBUs=table2array(BBU_info(1,4)); % maximum no. of BBUs to test
 
+if max_BBUs > nr_points
+    max_BBUs=nr_points;
+end
 
 total_sim=max_BBUs-min_BBUs+1;
 
