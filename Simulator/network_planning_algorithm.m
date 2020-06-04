@@ -7,11 +7,13 @@
 
 function [pos_BBUs, idx_RRH_BBU, RRHs_eq_ID, network_cost] = network_planning_algorithm(nr_iterations_aux)
 
+BBU_info=readtable('BBU.dat');
+
 switch nargin
     case 1
-        nr_iterations=nr_iterations_aux; % specific Monte Carlo loop iterations
+        nr_iterations=nr_iterations_aux; % Replicates of K-means clustering
     otherwise
-        nr_iterations=100; % default Monte Carlo loop iterations
+        nr_iterations=table2array(BBU_info(1,6)); % Replicates of K-means clustering
 end
 
 RRH_info=readtable('RRH.dat');
@@ -21,7 +23,7 @@ RRH_info=readtable('RRH.dat');
 nr_points=size(RRH_info,1);
 
 %BBU_capacity,BBU_cost,min_BBUs,max_BBUs
-BBU_info=readtable('BBU.dat');
+%BBU_info=readtable('BBU.dat');
 RRHs_max=table2array(BBU_info(1,1)); % Max RRHs supported by a BBU
 link_capacity=table2array(BBU_info(1,2)); % Max capacity of each RRH-BBU link in Mbps
 BBU_cost=table2array(BBU_info(1,3)); % BBU cost in Euro
