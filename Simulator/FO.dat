@@ -1,2 +1,0 @@
-ID,limit_debit_Mbps,BD_Mbps_km,min_trans_power_dBW,min_receive_power_dBW,losses_dB,fiber_loss_dBperkm,fixed_cost_eur,cost_per_dist_eurperkm
-8,10000,80000,-27.5,-43,3,0.25,35135,18865
