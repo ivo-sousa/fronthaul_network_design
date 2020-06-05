@@ -1,0 +1,4 @@
+ID,debit_Mbps,frequency_GHz,emission_power_dBW,emission_gain_dBi,reception_gain_dBi,sensitivity_dBW,noise_factor_dB,M_QAM,fixed_cost_eur,cost_per_dist_eurpersqrtkm
+1,380,13,2,28,28,-111,4,1024,55895,11590
+2,570,42,0,34,34,-122,4,1024,85326,5016
+3,1100,42,0,34,34,-122,4,1024,95736,9680
