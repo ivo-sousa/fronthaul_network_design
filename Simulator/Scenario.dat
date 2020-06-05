@@ -1,2 +1,0 @@
-link_length_km,required_throughput_Mbps,max_unavailability_percentage,temperature_Cdegrees,rain_intensity_mmperh,relative_humidity_percentage,transmitter_height_m,height_obstacle_vs_LoS_m,foggy_days_days,duration_fog_h
-5,1000,0.1,21,15,60,30,-15,10,2
