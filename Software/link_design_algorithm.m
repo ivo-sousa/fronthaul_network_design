@@ -18,7 +18,7 @@ function [cheapest_cost,eq_ID] = link_design_algorithm(distance_aux,requested_de
 % PTx [dB] -> power transmitted by the emitter
 % GRx [dB] -> emitter gain
 % GTx [dB] -> receiver gain
-% Asis [dB] -> all losses related to equipment (OF, coaxial cables,
+% Aequi [dB] -> all losses related to equipment (OF, coaxial cables,
 %receivers,...) Will be considered 3dB throughout the project.
 % Ao [dB] -> Free Space attenuation
 % d [km] -> Connection length
@@ -73,10 +73,9 @@ ha=table2array(scenario_data(1,7)); %transmitter height in m
 obs_los=table2array(scenario_data(1,8)); %height difference between tip of obstacle and line of sight in meters (negative if below)
 N_fd=table2array(scenario_data(1,9)); %Number of foggy days
 D_f=table2array(scenario_data(1,10));  %Duration of fog
-
-Asis=3;
-
-
+margin_MRT_dB=table2array(scenario_data(1,11));  %Required MRT link margin
+margin_FSO_dB=table2array(scenario_data(1,12));  %Required FSO link margin
+margin_FO_dB=table2array(scenario_data(1,13));  %Required FO link margin
 
 
 rain_frequency =readtable ('rain_k_alpha.dat');
@@ -111,11 +110,12 @@ for i=1:nr_eq_MRT(1,1)
     PTx=table2array(MRT_equipment(i,4));                      %Transmitter Power
     GTx=table2array(MRT_equipment(i,5));
     GRx=table2array(MRT_equipment(i,6));                       
-    SRx=table2array(MRT_equipment(i,7));                      %Receiver Sensitivity
-    Nf=table2array(MRT_equipment(i,8));                       %Noise factor of the receiver in dB
-    QAM=table2array(MRT_equipment(i,9));
-    cost_fixed=table2array(MRT_equipment(i,10));
-    cost_taxes=table2array(MRT_equipment(i,11));
+    Aequi=table2array(MRT_equipment(i,7)); %Equiment losses
+    SRx=table2array(MRT_equipment(i,8));                      %Receiver Sensitivity
+    Nf=table2array(MRT_equipment(i,9));                       %Noise factor of the receiver in dB
+    QAM=table2array(MRT_equipment(i,10));
+    cost_fixed=table2array(MRT_equipment(i,11));
+    cost_taxes=table2array(MRT_equipment(i,12));
 
 
     
@@ -157,7 +157,7 @@ for i=1:nr_eq_MRT(1,1)
 
 
     % signal-to-noise ratio
-    PRx=PTx+GTx+GRx-Asis-Ao-Ar_p-Aobs_MRT-Aabs_MRT;          %Power detected at the receiver
+    PRx=PTx+GTx+GRx-Aequi-Ao-Ar_p-Aobs_MRT-Aabs_MRT;          %Power detected at the receiver
 
     M=PRx-SRx;
 
@@ -217,7 +217,7 @@ for i=1:nr_eq_MRT(1,1)
         SNRmin=SNRmin_sesr;
      end
      
-     if (SNRmin>0) && (isreal(SNRmin_bber)) && (isreal(SNRmin_sesr)) && (M>3) %&& (debit>=requested_debit)
+     if (SNRmin>0) && (isreal(SNRmin_bber)) && (isreal(SNRmin_sesr)) && (M>margin_MRT_dB) %&& (debit>=requested_debit)
 %         X = sprintf('MRT equipment ID# %s cannot be used. SNR= %d dB & Margin= %d dB',name,SNRmin,M);
 %         disp(X)
 
@@ -303,9 +303,10 @@ for i=1:nr_eq_FSO(1,1)
         PTx=table2array(FSO_equipment(i,4));                %in dBW
         GTx=table2array(FSO_equipment(i,5));                %in dB
         GRx=table2array(FSO_equipment(i,6));                %in dB
-        SRx=table2array(FSO_equipment(i,7));                %in dBW
-        %Nf=table2array(FSO_equipment(i,8));                %Noise factor of the receiver in dB -> not necessary herein due to shot limited operation assumption
-        cost=table2array(FSO_equipment(i,9));
+        Aequi=table2array(FSO_equipment(i,7)); %Equipment losses
+        SRx=table2array(FSO_equipment(i,8));                %in dBW
+        %Nf=table2array(FSO_equipment(i,9));                %Noise factor of the receiver in dB -> not necessary herein due to shot limited operation assumption
+        cost=table2array(FSO_equipment(i,10));
         
    % if debit>=requested_debit
         
@@ -353,7 +354,7 @@ for i=1:nr_eq_FSO(1,1)
         end
         
         
-        PRx=PTx+GTx+GRx-Asis-Agl-Aabs_FSO-Afog-Arain-Aturb-Aobs_FSO;
+        PRx=PTx+GTx+GRx-Aequi-Agl-Aabs_FSO-Afog-Arain-Aturb-Aobs_FSO;
         M=PRx-SRx;
 
         SNR0=sqrt((eff*(10^((PRx+Aturb)/10)))/(B*opt_freq*2*6.63e-34));
@@ -365,7 +366,7 @@ for i=1:nr_eq_FSO(1,1)
 
         BER=0.5*erfc(0.5*sqrt((SNR0)/2));
 
-        if (BER<1e-6) && (M>3) %&& (debit>=requested_debit)
+        if (BER<1e-6) && (M>margin_FSO_dB) %&& (debit>=requested_debit)
 %             X = sprintf('O equipamento FSO %s pode ser usado. SNR= %d dB e Margem= %d dB',name,SNR_dB,M);
 %             disp(X)
 %             possible_equipment(eq_aux,1)=name;
@@ -422,7 +423,7 @@ for i=1:nr_eq_FO(1,1)
     
     
     
-    if (LB>TL+3) %&& requested_debit<=debit
+    if (LB-TL>margin_FO_dB) %&& requested_debit<=debit
         %if (cost<cheapest_cost)
         
         eq_cost(index,1)=((costperkm*d)+fixed_cost);
