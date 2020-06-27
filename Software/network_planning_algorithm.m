@@ -90,6 +90,11 @@ else
     idx_RRH_BBU=idx_RRH_BBU_sim(:,best_choice);
     pos_BBUs=pos_BBUs_sim{best_choice};
     
+    if network_cost == inf
+        disp('The equipment set does not meet the fronthaul requirements!');
+        disp('Either add more BBUs or consider different equipment!');
+    end
+    
 end
 
 end
