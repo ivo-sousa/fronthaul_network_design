@@ -179,7 +179,9 @@ for j=1:nr_iterations
                 [cost,eq_ID]=link_design_algorithm(D_test(dots),debits_test(dots));
                 
                 total_cost=total_cost+cost;
-                eq_ID_aux(dots)=eq_ID;
+                if cost ~= inf
+                    eq_ID_aux(dots)=eq_ID;
+                end
             end
             
             RRHs_eq_ID_temp(idx_test,j)=eq_ID_aux;
