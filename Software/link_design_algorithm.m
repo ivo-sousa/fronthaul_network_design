@@ -305,8 +305,8 @@ for i=1:nr_eq_FSO(1,1)
         GRx=table2array(FSO_equipment(i,6));                %in dB
         Aequi=table2array(FSO_equipment(i,7)); %Equipment losses
         SRx=table2array(FSO_equipment(i,8));                %in dBW
-        %Nf=table2array(FSO_equipment(i,9));                %Noise factor of the receiver in dB -> not necessary herein due to shot limited operation assumption
-        cost=table2array(FSO_equipment(i,10));
+        %Nf=table2array(FSO_equipment(i,X));                %Noise factor of the receiver in dB -> not necessary herein due to shot limited operation assumption
+        cost=table2array(FSO_equipment(i,9));
         
    % if debit>=requested_debit
         
@@ -357,14 +357,17 @@ for i=1:nr_eq_FSO(1,1)
         PRx=PTx+GTx+GRx-Aequi-Agl-Aabs_FSO-Afog-Arain-Aturb-Aobs_FSO;
         M=PRx-SRx;
 
-        SNR0=sqrt((eff*(10^((PRx+Aturb)/10)))/(B*opt_freq*2*6.63e-34));
+        %SNR0=sqrt((eff*(10^((PRx+Aturb)/10)))/(B*opt_freq*2*6.63e-34));
+        SNR0=PRx/2-Aturb/2-5*log10((B*opt_freq*2*6.63e-34)/eff);
+        snr0=10^((SNR0)/10);
+        
 
         %SNR_av=SNR0/(sqrt((10^((Aturb)/10)))+10^(sqrt(cint_var)/10)*SNR0^2);
 
         %SNR_dB=10*log10(SNR0);
     %     SNR_av_dB=10*log10(SNR_av);
 
-        BER=0.5*erfc(0.5*sqrt((SNR0)/2));
+        BER=0.5*erfc(0.5*sqrt((snr0)/2));
 
         if (BER<1e-6) && (M>margin_FSO_dB) %&& (debit>=requested_debit)
 %             X = sprintf('O equipamento FSO %s pode ser usado. SNR= %d dB e Margem= %d dB',name,SNR_dB,M);

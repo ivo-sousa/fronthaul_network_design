@@ -1,5 +1,5 @@
-ID,debit_Mbps,wavelength_nm,emission_power_dBW,emission_gain_dBi,reception_gain_dBi,losses_dB,sensitivity_dBW,noise_factor_dB,cost_eur
-4,100,785,-12.2,30,0,3,-60,4.5,29903
-5,1000,1550,-27,30,0,3,-60,4.5,32353
-6,1000,1550,-7,30,0,3,-60,4.5,48186
-7,10000,1550,-7,30,0,3,-48,4.5,86654
+ID,debit_Mbps,wavelength_nm,emission_power_dBW,emission_gain_dBi,reception_gain_dBi,losses_dB,sensitivity_dBW,cost_eur
+4,100,785,-12.2,30,0,3,-60,29903
+5,1000,1550,-27,30,0,3,-60,32353
+6,1000,1550,-7,30,0,3,-60,48186
+7,10000,1550,-7,30,0,3,-48,86654
