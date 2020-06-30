@@ -167,7 +167,7 @@ for i=1:nr_eq_MRT(1,1)
     %QAM=1024;
     %CN = table2array(CN_table(CN_table.QAM==QAM,2));
     s = table2array(CN_table(CN_table.QAM==QAM,3));
-    B_bw=0.3;
+    B_bw=0;
     b0=(debit*10^6)/log2(QAM);
     b_rf=(1+B_bw)*b0;
     N0=-204+10*log10(b_rf);
