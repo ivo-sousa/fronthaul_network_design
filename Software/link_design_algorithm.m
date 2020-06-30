@@ -11,7 +11,6 @@ function [cheapest_cost,eq_ID] = link_design_algorithm(distance_aux,requested_de
 
 
 
-
 %Variables
 
 % PRx [dB] -> free space propagation
