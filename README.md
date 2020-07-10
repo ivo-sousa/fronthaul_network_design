@@ -6,7 +6,7 @@ More specifically, the software tool has the following purposes:
 
 The algorithms associated with these goals, designated as (i) Link Design Algorithm and (ii) Network Planning Algorithm, can be found in the files 'link_design_algorithm.m' and 'network_planning_algorithm.m', respectively, within the 'Software' folder.
 
-For more information, namely detailed descriptions of the aforementioned algorithms, as well as examples of use, please visit https://doi.org/10.3390/app10144754
+For more information, namely detailed descriptions of the aforementioned algorithms, as well as examples of use, please visit https://www.mdpi.com/765470
 
 ## Source publication
 Please, cite the following paper in your publications if you use this software tool in your work:
